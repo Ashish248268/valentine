@@ -117,7 +117,7 @@
 </audio>
 
 <div class="card" id="card">
-  <h1>Akshara, will you be my Valentine? 💋</h1>
+  <h1>Riya, will you be my Valentine? 💖</h1>
   <div class="buttons">
     <button id="yes">Yes 💘</button>
     <button id="no">No 🙃</button>
@@ -127,9 +127,14 @@
 <div class="love-page" id="lovePage">
   <h1>For You 💕</h1>
   <p>
-   😎 
+    From the moment you smiled,
+    something quietly changed.
+    This isn’t just a Valentine,
+    it’s a promise of laughter,
+    care, and countless memories.
+    💖
   </p>
-  <p><strong>Happy Valentine’s Day Akshara ❤️</strong></p>
+  <p><strong>Happy Valentine’s Day ❤️</strong></p>
 </div>
 
 <script>
@@ -141,16 +146,35 @@
   document.body.addEventListener('click', () => music.play(), { once: true });
 
   function escapeNo() {
+    const yesBtn = document.getElementById('yes');
+    const yesRect = yesBtn.getBoundingClientRect();
+    const buttonsRect = buttons.getBoundingClientRect();
+
     const maxX = buttons.offsetWidth - noBtn.offsetWidth;
     const maxY = buttons.offsetHeight - noBtn.offsetHeight;
-    noBtn.style.left = Math.random() * maxX + 'px';
-    noBtn.style.top = Math.random() * maxY + 'px';
+
+    let x, y;
+    let tries = 0;
+
+    do {
+      x = Math.random() * maxX;
+      y = Math.random() * maxY;
+      tries++;
+    } while (
+      y < (yesRect.top - buttonsRect.top + yesBtn.offsetHeight + 10) && tries < 20
+    );
+
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+
     noBtn.style.transform = 'scale(0.4) rotate(360deg)';
     noBtn.style.opacity = '0';
+
     setTimeout(() => {
       noBtn.style.transform = 'scale(1) rotate(0deg)';
       noBtn.style.opacity = '1';
     }, 300);
+  }, 300);
   }
 
   noBtn.addEventListener('mouseover', escapeNo);
@@ -188,4 +212,5 @@
 
 </body>
 </html>
+
 
