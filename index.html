@@ -47,12 +47,12 @@
 
     .buttons {
       position: relative;
-      height: 140px;
-      margin-top: 25px;
+      margin-top: 30px;
       display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 20px;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+      min-height: 160px;
     }
 
     button {
@@ -75,10 +75,7 @@
     #no {
       background: #f1f3f5;
       color: #495057;
-      position: absolute;
-      top: 70px;
-      left: 50%;
-      transform: translateX(-50%);
+      position: relative; /* IMPORTANT: no absolute vertical movement */
     }
 
     /* Hearts */
@@ -152,27 +149,18 @@ function playMusic() {
 }
 
   function escapeNo() {
-  const yesBtn = document.getElementById('yes');
-  const yesRect = yesBtn.getBoundingClientRect();
-  const containerRect = buttons.getBoundingClientRect();
+  const maxX = 120; // horizontal escape only
+  const direction = Math.random() > 0.5 ? 1 : -1;
+  const x = direction * (Math.random() * maxX + 40);
 
-  const maxX = buttons.offsetWidth - noBtn.offsetWidth;
-  const minY = (yesRect.bottom - containerRect.top) + 15; // never above Yes
-  const maxY = buttons.offsetHeight - noBtn.offsetHeight;
-
-  let x = Math.random() * maxX;
-  let y = Math.random() * (maxY - minY) + minY;
-
-  noBtn.style.left = x + 'px';
-  noBtn.style.top = y + 'px';
-
-  noBtn.style.transform = 'scale(0.5) rotate(360deg)';
+  noBtn.style.transform = `translateX(${x}px) scale(0.5) rotate(360deg)`;
   noBtn.style.opacity = '0';
 
   setTimeout(() => {
-    noBtn.style.transform = 'scale(1) rotate(0deg)';
+    noBtn.style.transform = 'translateX(0) scale(1) rotate(0deg)';
     noBtn.style.opacity = '1';
-  }, 250);
+  }, 300);
+}, 250);
 } while (
       y < (yesRect.top - buttonsRect.top + yesBtn.offsetHeight + 10) && tries < 20
     );
