@@ -1,153 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Valentine?</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Be My Valentine 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
     body {
       margin: 0;
       height: 100vh;
-      overflow: hidden;
+      background: radial-gradient(circle at top, #ff9a9e, #ff4d6d);
       display: flex;
-      justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
-      font-family: 'Segoe UI', sans-serif;
+      justify-content: center;
+      overflow: hidden;
     }
 
-    .card {
-      background: white;
-      padding: 50px 40px;
-      border-radius: 25px;
+    .card, .love-page {
+      background: rgba(255,255,255,0.96);
+      width: 360px;
+      padding: 45px 35px;
+      border-radius: 30px;
       text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+      animation: fadeIn 1s ease;
       position: relative;
-      width: 330px;
-      z-index: 2;
     }
 
-    h1 {
-      color: #e63946;
-      margin-bottom: 35px;
+    .love-page { display: none; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    h1 { color: #d6336c; font-size: 26px; margin-bottom: 25px; }
+
+    p {
+      color: #555;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .buttons {
+      position: relative;
+      height: 120px;
+      margin-top: 25px;
     }
 
     button {
-      padding: 14px 30px;
-      font-size: 16px;
+      padding: 14px 32px;
       border: none;
-      border-radius: 30px;
+      border-radius: 50px;
+      font-size: 16px;
       cursor: pointer;
-      margin: 10px;
-      transition: transform 0.3s, opacity 0.3s;
+      transition: all 0.3s ease;
     }
 
     #yes {
-      background-color: #e63946;
+      background: linear-gradient(135deg, #ff4d6d, #ff758f);
       color: white;
+      box-shadow: 0 10px 20px rgba(255,77,109,0.4);
     }
+
+    #yes:hover { transform: translateY(-2px) scale(1.05); }
 
     #no {
-      background-color: #dee2e6;
-      color: black;
+      background: #f1f3f5;
+      color: #495057;
       position: absolute;
-    }
-
-    #message {
-      margin-top: 25px;
-      font-size: 20px;
-      color: #e63946;
-      font-weight: bold;
-      animation: pop 0.6s ease;
-    }
-
-    @keyframes pop {
-      0% { transform: scale(0.6); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+      left: 50%;
+      transform: translateX(-50%);
     }
 
     /* Hearts */
     .heart {
       position: absolute;
       bottom: -20px;
-      font-size: 20px;
-      animation: floatUp 6s linear infinite;
+      font-size: 22px;
+      animation: float 6s linear infinite;
       opacity: 0.8;
     }
 
-    @keyframes floatUp {
+    @keyframes float {
       0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+      100% { transform: translateY(-100vh) scale(1.6); opacity: 0; }
+    }
+
+    /* Confetti */
+    .confetti {
+      position: absolute;
+      width: 8px;
+      height: 14px;
+      background: red;
+      top: -10px;
+      animation: fall 3s linear infinite;
+    }
+
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(360deg); }
     }
   </style>
 </head>
 <body>
 
-  <!-- Background music -->
-  <audio id="bgMusic" loop>
-    <source src="love.mp3" type="audio/mpeg">
-  </audio>
+<audio id="bgMusic" loop>
+  <source src="love.mp3" type="audio/mpeg">
+</audio>
 
-  <div class="card">
-    <h1>Riya, will you be my Valentine? 💖</h1>
+<div class="card" id="card">
+  <h1>Riya, will you be my Valentine? 💖</h1>
+  <div class="buttons">
     <button id="yes">Yes 💘</button>
     <button id="no">No 🙃</button>
-    <div id="message"></div>
   </div>
+</div>
 
-  <script>
-    const noBtn = document.getElementById("no");
-    const yesBtn = document.getElementById("yes");
-    const card = document.querySelector(".card");
-    const music = document.getElementById("bgMusic");
+<div class="love-page" id="lovePage">
+  <h1>For You 💕</h1>
+  <p>
+    From the moment you smiled,
+    something quietly changed.
+    This isn’t just a Valentine,
+    it’s a promise of laughter,
+    care, and countless memories.
+    💖
+  </p>
+  <p><strong>Happy Valentine’s Day ❤️</strong></p>
+</div>
 
-    // Start music on first interaction (mobile friendly)
-    document.body.addEventListener("click", () => {
-      music.play();
-    }, { once: true });
+<script>
+  const noBtn = document.getElementById('no');
+  const yesBtn = document.getElementById('yes');
+  const music = document.getElementById('bgMusic');
+  const buttons = document.querySelector('.buttons');
 
-    function escapeNo() {
-      const maxX = card.offsetWidth - noBtn.offsetWidth;
-      const maxY = card.offsetHeight - noBtn.offsetHeight;
+  document.body.addEventListener('click', () => music.play(), { once: true });
 
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
+  function escapeNo() {
+    const maxX = buttons.offsetWidth - noBtn.offsetWidth;
+    const maxY = buttons.offsetHeight - noBtn.offsetHeight;
+    noBtn.style.left = Math.random() * maxX + 'px';
+    noBtn.style.top = Math.random() * maxY + 'px';
+    noBtn.style.transform = 'scale(0.4) rotate(360deg)';
+    noBtn.style.opacity = '0';
+    setTimeout(() => {
+      noBtn.style.transform = 'scale(1) rotate(0deg)';
+      noBtn.style.opacity = '1';
+    }, 300);
+  }
 
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
+  noBtn.addEventListener('mouseover', escapeNo);
+  noBtn.addEventListener('touchstart', escapeNo);
 
-      // Shrink + spin + fade
-      noBtn.style.transform = "scale(0.4) rotate(360deg)";
-      noBtn.style.opacity = "0";
+  yesBtn.onclick = () => {
+    document.getElementById('card').style.display = 'none';
+    document.getElementById('lovePage').style.display = 'block';
+    startConfetti();
+  };
 
-      setTimeout(() => {
-        noBtn.style.transform = "scale(1) rotate(0deg)";
-        noBtn.style.opacity = "1";
-      }, 300);
+  function createHeart() {
+    const h = document.createElement('div');
+    h.className = 'heart';
+    h.innerHTML = '💖';
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.animationDuration = (Math.random() * 3 + 4) + 's';
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 6000);
+  }
+  setInterval(createHeart, 450);
+
+  function startConfetti() {
+    for (let i = 0; i < 120; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.background = ['#ff4d6d','#ffd166','#c77dff'][Math.floor(Math.random()*3)];
+      c.style.animationDuration = Math.random() * 2 + 2 + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 3000);
     }
-
-    noBtn.addEventListener("mouseover", escapeNo);
-    noBtn.addEventListener("touchstart", escapeNo);
-
-    yesBtn.onclick = () => {
-      document.getElementById("message").innerHTML =
-        "Yayyy! 💕 You just made this Valentine unforgettable 😍💖";
-    };
-
-    // Floating hearts
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.innerHTML = "💖";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 6000);
-    }
-
-    setInterval(createHeart, 400);
-  </script>
+  }
+</script>
 
 </body>
 </html>
